@@ -56,19 +56,36 @@ header a {
   font-size: 0.9em;
   color: #555;
 }
-.workout-details button {
-  position: absolute;
-  scale: 150%;
-  top: 20px;
-  right: 20px;
+.delete-btn, .edit-btn {
+  margin: 5px;
+  padding: 5px 10px;
+  font-size: 16px;
+  background-color: white;
+  color: black;
+  border: 1px solid #ccc;
   cursor: pointer;
-  background: #f1f1f1;
-  padding: 6px;
-  border-radius: 50%;
-  color:red;
-  border-style: none;
 }
 
+.delete-btn i, .edit-btn i {
+  margin: auto
+}
+
+.delete-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: red;
+}
+
+.edit-btn {
+  position: absolute;
+  top: 10px;
+  right: 50px;
+}
+
+.cancel-btn {
+  margin-left: 5px;
+}
 /* new workout form */
 label, input {
   display: block;
