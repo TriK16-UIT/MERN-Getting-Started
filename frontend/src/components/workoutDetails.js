@@ -1,12 +1,21 @@
 import { useWorkoutsContext } from "../hooks/useWorkoutsContext"
 import { formatDistanceToNow } from "date-fns"
+import { useAuthContext } from "../hooks/useAuthContext"
 
 const WorkoutDetails = ({workout}) => {
     const { dispatch, editingWorkoutId, form } = useWorkoutsContext()
+    const {user} = useAuthContext()
 
     const handleClick = async () => {
+        if (!user) {
+            return
+        }
+
         const response = await fetch('/api/workouts/' + workout._id, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${user.token}`
+            }
         })
         const json = await response.json()
 
@@ -23,13 +32,24 @@ const WorkoutDetails = ({workout}) => {
     };
 
     const handleSubmit = async (e) => {
+        // Still figuring out if withoute e.preventDefault(), the page got flickered everytime I edited something.
         e.preventDefault();
+
+        if (!user) {
+            return
+        }
+
         const response = await fetch('/api/workouts/' + workout._id, {
             method: 'PATCH',
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
+            },
             body: JSON.stringify(form)
         });
+
         const json = await response.json();
+        
         if (response.ok) {
             dispatch({ type: 'MODIFY_WORKOUT', payload: {...form, _id: workout._id} });
         }
